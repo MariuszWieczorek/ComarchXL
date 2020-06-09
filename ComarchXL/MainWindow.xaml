@@ -1,0 +1,16 @@
+﻿<Window x:Class="ComarchXL.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ComarchXL"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Button Content="Login" HorizontalAlignment="Left" Margin="43,40,0,0" VerticalAlignment="Top" Width="167" Height="28" Click="Button_Click"/>
+        <Button Content="Logout&#xD;&#xA;" HorizontalAlignment="Left" Margin="43,84,0,0" VerticalAlignment="Top" Width="167" Height="26" Click="Button_Click_1"/>
+        <Button Content="Dodaj Towar" HorizontalAlignment="Left" Margin="43,130,0,0" VerticalAlignment="Top" Width="167" Click="Button_Click_2"/>
+        <Button Content="Dodaj BOM" HorizontalAlignment="Left" Margin="43,172,0,0" VerticalAlignment="Top" Width="167" Click="Button_Click_3"/>
+
+    </Grid>
+</Window>
