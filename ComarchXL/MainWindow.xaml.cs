@@ -26,71 +26,88 @@ namespace ComarchXL
             InitializeComponent();
         }
 
-        Int32 SessionID = -1;
+        int SessionID = -1;
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void cmdLogin_Click(object sender, RoutedEventArgs e)
         {
 
             ComarchTools.zaloguj(ref SessionID);
-          
+            Sesja.Content = SessionID.ToString();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void cmdLogout_Click(object sender, RoutedEventArgs e)
         {
-            ComarchTools.wyloguj(SessionID);
+            ComarchTools.wyloguj(ref SessionID);
+            Sesja.Content = SessionID.ToString();
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        
+        private void cmdDodajTowar_Click(object sender, RoutedEventArgs e)
         {
-            Int32 TowarID = -1;
-            var Towar = new XLTowarInfo_20201
-            {
-                Wersja = 20201,
-                Typ = 2,
-                Kod = "PPPZZZ",
-                Nazwa = "PPPZZZ",
-                Jm  = "szt"
-            };
+            string kod = "PPP002";
+            string nazwa = "PPP002";
+            string jm = "szt";
+            int TowarID = -1;
 
-            
-            var res = cdn_api.cdn_api.XLNowyTowar(SessionID,ref TowarID, Towar);
-            MessageBox.Show(res.ToString());
-
+            ComarchTools.nowyProduct(SessionID, ref TowarID ,kod, nazwa, jm);
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        private void cmdDodajBOM_Click(object sender, RoutedEventArgs e)
         {
-            Int32 IDReceptury = -1;
-            var RecepturaInfo = new XLRecepturaInfo_20201
-            {
-                Wersja = 20201,
-                TypReceptury = 1,
-                Symbol = "REC",
-                Ilosc = "1",
-                Towar = "PPPZZZ"
-            };
 
-            var SkladnikRecepturyInfo = new XLSkladnikRecepturyInfo_20201
-            {
-                Wersja = 20201,
-                Ilosc = "1",
-                Towar = "SAP001"
-            };
+            int IDReceptury = -1;
+            string kodReceptury = "recepturaX";
+            string towarKod = "PPP002";
+            string towarIlosc = "1";
+            ComarchTools.nowaReceptura(SessionID, ref IDReceptury,kodReceptury,towarKod, towarIlosc);
 
-    
-            var ZamkniecieRecepturyInfo = new XLZamkniecieRecepturyInfo_20201
-            {
-                Wersja = 20201,
-             };
+            string skladnikKod = "SAP001";
+            string skladnikIlosc = "1";
+            ComarchTools.nowySkladnik(ref IDReceptury, skladnikKod, skladnikIlosc);
 
+            string skladnikKod2 = "SAP002";
+            string skladnikIlosc2 = "1";
+            ComarchTools.nowySkladnik(ref IDReceptury, skladnikKod2, skladnikIlosc2);
 
-            var res = cdn_api.cdn_api.XLNowaReceptura(SessionID,ref IDReceptury, RecepturaInfo);
-            var res1 = cdn_api.cdn_api.XLDodajSkladnikReceptury(ref IDReceptury, SkladnikRecepturyInfo);
-            var res2 = cdn_api.cdn_api.XLZamknijRecepture(IDReceptury, ZamkniecieRecepturyInfo);
-
-
-
+            ComarchTools.zamkniecieReceptury(IDReceptury);
         }
+
+        private void cmdImportBieznikow_Click(object sender, RoutedEventArgs e)
+        {
+            ComarchTools.importujBiezniki(SessionID);
+        }
+
+        private void ImportTest_Click(object sender, RoutedEventArgs e)
+        {
+            ComarchTools.importTest(SessionID);
+        }
+
+        private void cmdImportDrutowek_Click(object sender, RoutedEventArgs e)
+        {
+            ComarchTools.importujDrutowki(SessionID);
+        }
+
+        private void cmdImportKap_Click(object sender, RoutedEventArgs e)
+        {
+            ComarchTools.importujKapy(SessionID);
+        }
+
+        private void cmdImportKordyCiete_Click(object sender, RoutedEventArgs e)
+        {
+            ComarchTools.importujKordyCiete(SessionID);
+        }
+
+        private void cmdImportOponySurowe_Click(object sender, RoutedEventArgs e)
+        {
+            ComarchTools.importujOponySurowe(SessionID);
+        }
+
+        private void cmdImportOponyWulkanizowane_Click(object sender, RoutedEventArgs e)
+        {
+            ComarchTools.importujOponyWulkanizowane(SessionID);
+        }
+
+      
     }
 }

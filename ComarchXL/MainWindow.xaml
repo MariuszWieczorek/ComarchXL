@@ -5,12 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComarchXL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button Content="Login" HorizontalAlignment="Left" Margin="43,40,0,0" VerticalAlignment="Top" Width="167" Height="28" Click="Button_Click"/>
-        <Button Content="Logout&#xD;&#xA;" HorizontalAlignment="Left" Margin="43,84,0,0" VerticalAlignment="Top" Width="167" Height="26" Click="Button_Click_1"/>
-        <Button Content="Dodaj Towar" HorizontalAlignment="Left" Margin="43,130,0,0" VerticalAlignment="Top" Width="167" Click="Button_Click_2"/>
-        <Button Content="Dodaj BOM" HorizontalAlignment="Left" Margin="43,172,0,0" VerticalAlignment="Top" Width="167" Click="Button_Click_3"/>
+        Title="Kabat Technologie import do Comarch XL" Height="450" Width="800">
+    <Border Margin="20">
+        <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            
+            
+                <StackPanel Orientation="Vertical" Grid.Column="0" Background="Azure">
+                    <Button x:Name="cmdLogin"                     Content="Login"                        HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdLogin_Click"/>
+                    <Button x:Name="cmdLogout"                    Content="Logout"                       HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdLogout_Click"/>
+                    
+                    <Button x:Name="cmdImportBieznikow"           Content="Importuj Bieżniki"            HorizontalAlignment="center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdImportBieznikow_Click"/>
+                    <Button x:Name="cmdImportDrutowek"            Content="Importuj Drutówki"            HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdImportDrutowek_Click"/>
+                    <Button x:Name="cmdImportKap"                 Content="Importuj Kapy"                HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdImportKap_Click"/>
+                    <Button x:Name="cmdImportKordyCiete"          Content="Importuj Kordy Cięte"         HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdImportKordyCiete_Click"/>
+                    <Button x:Name="cmdImportOponySurowe"         Content="Importuj Opony Surowe"        HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdImportOponySurowe_Click"/>
+                    <Button x:Name="cmdImportOponyWulkanizowane"  Content="Importuj Opony Wulkanizowane" HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdImportOponyWulkanizowane_Click"/>
+                </StackPanel>
+                
+               <Label x:Name="Sesja" Content="id sesji" HorizontalAlignment="Center" FontWeight="Bold" Grid.Column="1"/>
 
-    </Grid>
+                <StackPanel Orientation="Vertical" Grid.Column="2">
+                    <Button x:Name="ImportTest"     Content="Import Test"  HorizontalAlignment="Center"  VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="ImportTest_Click" />
+                    <Button x:Name="cmdDodajTowar"  Content="Dodaj Towar"  HorizontalAlignment="Center"  VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdDodajTowar_Click"/>
+                    <Button x:Name="cmdDodajBOM"    Content="Dodaj BOM"    HorizontalAlignment="Center"  VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdDodajBOM_Click"/>
+                    <Label  x:Name="Informacje"     Content="Label"        HorizontalAlignment="Center"  VerticalAlignment="Top" Width="197"  Margin="0,10,0,0" />
+                </StackPanel>
+
+            </Grid>
+            
+        </StackPanel>
+    </Border>
 </Window>
