@@ -6,20 +6,21 @@
         xmlns:local="clr-namespace:ComarchXL"
         mc:Ignorable="d"
         Title="Kabat Technologie import do Comarch XL" Height="450" Width="800">
+
     <Border Margin="20">
         <StackPanel>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            
-            
+            <Grid x:Name="Grid1" Visibility="Visible">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+
                 <StackPanel Orientation="Vertical" Grid.Column="0" Background="Azure">
                     <Button x:Name="cmdLogin"                     Content="Login"                        HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdLogin_Click"/>
                     <Button x:Name="cmdLogout"                    Content="Logout"                       HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdLogout_Click"/>
-                    
+
                     <Button x:Name="cmdImportBieznikow"           Content="Importuj Bieżniki"            HorizontalAlignment="center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdImportBieznikow_Click"/>
                     <Button x:Name="cmdImportDrutowek"            Content="Importuj Drutówki"            HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdImportDrutowek_Click"/>
                     <Button x:Name="cmdImportKap"                 Content="Importuj Kapy"                HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdImportKap_Click"/>
@@ -27,8 +28,8 @@
                     <Button x:Name="cmdImportOponySurowe"         Content="Importuj Opony Surowe"        HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdImportOponySurowe_Click"/>
                     <Button x:Name="cmdImportOponyWulkanizowane"  Content="Importuj Opony Wulkanizowane" HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdImportOponyWulkanizowane_Click"/>
                 </StackPanel>
-                
-               <Label x:Name="Sesja" Content="id sesji" HorizontalAlignment="Center" FontWeight="Bold" Grid.Column="1"/>
+
+                <Label x:Name="Sesja" Content="id sesji" HorizontalAlignment="Center" FontWeight="Bold" Grid.Column="1"/>
 
                 <StackPanel Orientation="Vertical" Grid.Column="2">
                     <Button x:Name="ImportTest"     Content="Import Test"  HorizontalAlignment="Center"  VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="ImportTest_Click" />
@@ -38,6 +39,24 @@
                 </StackPanel>
 
             </Grid>
+
+            <Grid x:Name="Grid2" Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="cmdLoginA"                     Content="Login"                        HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdLogin_Click"/>
+                <Button x:Name="cmdLogoutA"                    Content="Logout"                       HorizontalAlignment="Center" VerticalAlignment="Top" Width="197"  Margin="0 10 0 0" Click="cmdLogout_Click"/>
+
+            </Grid>
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState x:Name="TabularLayout">
+                       
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
             
         </StackPanel>
     </Border>
