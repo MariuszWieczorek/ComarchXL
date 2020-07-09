@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using cdn_api;
+using System.Speech.Synthesis;
+
 
 namespace ComarchXL
 {
@@ -38,7 +40,8 @@ namespace ComarchXL
 
         private void cmdLogout_Click(object sender, RoutedEventArgs e)
         {
-            ComarchTools.wyloguj(ref SessionID);
+            if (SessionID > 0)
+                ComarchTools.wyloguj(ref SessionID);
             Sesja.Content = SessionID.ToString();
         }
 
@@ -108,6 +111,32 @@ namespace ComarchXL
             ComarchTools.importujOponyWulkanizowane(SessionID);
         }
 
-      
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+            synthesizer.Volume = 100;  // 0...100
+            synthesizer.Rate = -2;     // -10...10
+            
+            // Synchronous
+            // synthesizer.Speak("pocałuj się w dupe komar h");
+
+            // Asynchronous
+            //synthesizer.SpeakAsync("zaloguj się najpierw");
+        }
+
+        private void Window_Unloaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+            synthesizer.Volume = 100;  // 0...100
+            synthesizer.Rate = -2;     // -10...10    
+            //synthesizer.SpeakAsync("spadam stąd");
+            
+            ComarchTools.wyloguj(ref SessionID);
+        }
     }
 }
