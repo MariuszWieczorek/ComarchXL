@@ -5,25 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComarchXL"
         mc:Ignorable="d"
+        Closed="Window_Closed"
+        Loaded="Window_Loaded"
         Title="ComarchImport" Height="450" Width="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
+   
+    <Border Margin="20">
+         
+        <StackPanel>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Column="0">
-            <Button>test</Button>
-        </StackPanel>
+            <StackPanel Height="50">
 
-        <StackPanel Grid.Column="2" Grid.Row="2">
-            <Button x:Name="cmdExit" IsCancel="True" Content="E_xit" Click="cmdExit_Click"/>
+            </StackPanel>
+            
+            <Grid x:Name="Grid1" Visibility="Visible">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <StackPanel Orientation="Vertical" MaxWidth="500" HorizontalAlignment="Center" Grid.Column="0" Background="Azure">
+                    <Button x:Name="cmdLogin"                     Content="Login"                          Margin="0 10 0 0" Click="cmdLogin_Click" Style="{StaticResource MyButton}"/>
+                    <Button x:Name="cmdLogout"                    Content="Logout"                         Margin="0 10 0 0" Click="cmdLogout_Click"/>
+
+                    <Button x:Name="cmdImportBieznikow"           Content="Importuj Bieżniki"              Margin="0 10 0 0" Click="cmdImportBieznikow_Click"/>
+                    <Button x:Name="cmdImportDrutowek"            Content="Importuj Drutówki"              Margin="0 10 0 0" Click="cmdImportDrutowek_Click"/>
+                    <Button x:Name="cmdImportKap"                 Content="Importuj Kapy"                  Margin="0 10 0 0" Click="cmdImportKap_Click"/>
+                    <Button x:Name="cmdImportKordyCiete"          Content="Importuj Kordy Cięte"           Margin="0 10 0 0" Click="cmdImportKordyCiete_Click"/>
+                    <Button x:Name="cmdImportOponySurowe"         Content="Importuj Opony Surowe"          Margin="0 10 0 0" Click="cmdImportOponySurowe_Click"/>
+                    <Button x:Name="cmdImportOponyWulkanizowane"  Content="Importuj Opony Wulkanizowane"   Margin="0 10 0 0" Click="cmdImportOponyWulkanizowane_Click"/>
+                </StackPanel>
+
+                <StackPanel  Grid.Column="1"> 
+                    <Label x:Name="Sesja"       Content="id sesji" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <Label x:Name="Informacje"  Content="Label"    HorizontalAlignment="Center" Margin="0,10,0,0" />
+                </StackPanel>
+                    
+                <StackPanel Orientation="Vertical"  Width="200" HorizontalAlignment="Right" Grid.Column="2">
+                    <Button x:Name="ImportTest"     Content="Import Test"    Margin="0 10 0 0" Click="ImportTest_Click" />
+                    <Button x:Name="cmdDodajTowar"  Content="Dodaj Towar"    Margin="0 10 0 0" Click="cmdDodajTowar_Click"/>
+                    <Button x:Name="cmdDodajBOM"    Content="Dodaj BOM"      Margin="0 10 0 0" Click="cmdDodajBOM_Click"/>
+                    
+                    <Button x:Name="cmdExit" IsCancel="True" Content="_Wstecz" Margin="0 10 0 0" Click="cmdExit_Click"/>
+                </StackPanel>
+                
+            </Grid>
+          
+
         </StackPanel>
-    </Grid>
+    </Border>
+
+
 </Window>

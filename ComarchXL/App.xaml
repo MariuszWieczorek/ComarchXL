@@ -1,9 +1,40 @@
 ﻿<Application x:Class="ComarchXL.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:ComarchXL"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <sys:String x:Key="ComboBoxTitle">Items:</sys:String>
+
+        <ResourceDictionary x:Key="R1" Source="pack://siteoforigin:,,,/ResourceDictionary1.xaml" />
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="5,2"/>
+            <Setter Property="Background" Value="Beige"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="MyButton">
+            <Setter Property="Padding" Value="5,2"/>
+            <Setter Property="Background" Value="Aquamarine"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+
+        <Image x:Key="Opona" x:Name="Image1" Margin="0,0,0,0" Panel.ZIndex="0">
+            <Image.Source>
+                <BitmapImage UriSource="./Images/tire_black.png" />
+            </Image.Source>
+        </Image>
+        
     </Application.Resources>
 </Application>
+
+    <!--
+        http://maciej-progtech.blogspot.com/2012/01/wpf-o-zasobach-resources-cos-wiecej-pl.html
+        https://www.altcontroldelete.pl/artykuly/wpf-tutorial-zasoby-i-style/
+        https://docs.microsoft.com/en-us/dotnet/framework/wpf/app-development/pack-uris-in-wpf?redirectedfrom=MSDN
+    -->

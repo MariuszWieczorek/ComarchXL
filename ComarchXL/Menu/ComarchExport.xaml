@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComarchXL.Menu"
         mc:Ignorable="d"
+        Closed="Window_Closed"
         Title="ComarchExport" Height="450" Width="800">
     <Grid>
         

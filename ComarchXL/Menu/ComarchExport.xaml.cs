@@ -23,5 +23,10 @@ namespace ComarchXL.Menu
         {
             InitializeComponent();
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+
+        }
     }
 }
