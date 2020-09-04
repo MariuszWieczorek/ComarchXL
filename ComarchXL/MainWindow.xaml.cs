@@ -138,5 +138,12 @@ namespace ComarchXL
             
             ComarchTools.wyloguj(ref SessionID);
         }
+
+        private void cmdComarchExport_Click(object sender, RoutedEventArgs e)
+        {
+            ComarchImport inputDialog = new ComarchImport();
+            inputDialog.ShowDialog();
+                
+        }
     }
 }
