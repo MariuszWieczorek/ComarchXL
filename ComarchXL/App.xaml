@@ -5,30 +5,14 @@
              xmlns:local="clr-namespace:ComarchXL"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <sys:String x:Key="ComboBoxTitle">Items:</sys:String>
 
-        <ResourceDictionary x:Key="R1" Source="pack://siteoforigin:,,,/ResourceDictionary1.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ResourceDictionary1.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
 
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="Padding" Value="5,2"/>
-            <Setter Property="Background" Value="Beige"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-
-        <Style TargetType="{x:Type Button}" x:Key="MyButton">
-            <Setter Property="Padding" Value="5,2"/>
-            <Setter Property="Background" Value="Aquamarine"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-
-
-        <Image x:Key="Opona" x:Name="Image1" Margin="0,0,0,0" Panel.ZIndex="0">
-            <Image.Source>
-                <BitmapImage UriSource="./Images/tire_black.png" />
-            </Image.Source>
-        </Image>
+   
         
     </Application.Resources>
 </Application>

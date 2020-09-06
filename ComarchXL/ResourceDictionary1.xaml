@@ -1,7 +1,38 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:ComarchXL">
 
+       <!-- cała treść skopiowana z pliku App.xaml -->     
+    
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Padding" Value="5,2"/>
+            <Setter Property="Background" Value="Beige"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
 
-   
+        <Style TargetType="{x:Type Button}" x:Key="MyButton">
+            <Setter Property="Padding" Value="5,2"/>
+            <Setter Property="Background" Value="Aquamarine"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <sys:String x:Key="ComboBoxTitle">Items:</sys:String>
+
+        <!-- zasób jako bezpośrenia ścieżka -->
+        <!-- notacja 1 jest skrótem notacji 2 -->
+        <!-- używamy bitmapy wkompilowanej w exe -->
+        <BitmapImage x:Key="Opona0" UriSource="/ComarchXL;component/Images/tire_green.png" ></BitmapImage>
+        <BitmapImage x:Key="Opona3" UriSource="pack://application:,,,/ComarchXL;component/Images/tire_red.png" ></BitmapImage>
+
+        <!-- zasób jako bezpośrenia ścieżka-->
+        <BitmapImage x:Key="Opona1" UriSource=".\Images\tire_black.png"></BitmapImage>
+
+        <!-- zasób jako osobny plik w miejscu pochodzenia, odwołujemy siędo plików niedołączonych do projektu -->
+        <!-- katalog Images musi być tam gdzie exe -->
+        <!-- czyli w : D:\vs\WPF\ComarchXL\ComarchXL\bin\Debug\Images\tire_red.png'-->
+        <BitmapImage x:Key="Opona2" UriSource="pack://siteOfOrigin:,,,/Images/tire_gray.png"/>
+
 </ResourceDictionary>

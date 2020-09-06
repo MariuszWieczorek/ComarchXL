@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="cdn_api20201.net">
-      <HintPath>..\..\..\..\Program Files (x86)\Comarch ERP XL 2020.1\cdn_api20201.net.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Comarch ERP XL 2020.1\cdn_api20201.net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -121,6 +121,10 @@
   <ItemGroup>
     <Resource Include="Images\tire_black.png" />
     <Resource Include="Images\tire_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tire_green.png" />
+    <Resource Include="Images\tire_red.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

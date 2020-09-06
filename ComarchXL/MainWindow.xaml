@@ -37,9 +37,11 @@
                 <StackPanel Orientation="Vertical" Grid.Column="0" Background="Azure" MaxWidth="400">
                     <Button x:Name="cmdComarchExport"  Margin="0 10 0 10" Click="cmdComarchExport_Click">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/ComarchXL;component/Images/tire_black.png" Width="40"/>
-                           <!-- <Image Source="{StaticResource Opona}" Width="40"/> -->
-                            <TextBlock Margin="5,0" VerticalAlignment="Center">Import danych do Comarch</TextBlock>
+                            <Image Source="{StaticResource Opona0}" Width="40"/>
+                            <Image Source="{StaticResource Opona3}" Width="40"/>
+                            <Image Source="{StaticResource Opona1}" Width="40"/>
+                            <Image Source="{StaticResource Opona2}" Width="40"/>
+                            <TextBlock Margin="5,0" VerticalAlignment="Center">Import</TextBlock>
                         </StackPanel>
                     </Button>                
                 </StackPanel>
