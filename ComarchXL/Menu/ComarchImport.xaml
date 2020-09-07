@@ -4,17 +4,34 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComarchXL"
+        xmlns:self="clr-namespace:ComarchXL"
         mc:Ignorable="d"
         Closed="Window_Closed"
         Loaded="Window_Loaded"
         Title="ComarchImport" Height="450" Width="800">
-   
+
+    <Window.CommandBindings>
+        <CommandBinding Command    ="ApplicationCommands.New" 
+                        Executed   ="NewCommand_Executed" 
+                        CanExecute ="NewCommand_CanExecute" />
+
+       <CommandBinding Command    ="self:CustomCommands.Exit"
+                        CanExecute ="ExitCommand_CanExecute"
+                        Executed   ="ExitCommand_Executed" />
+
+    </Window.CommandBindings>
+
+
     <Border Margin="20">
          
         <StackPanel>
 
             <StackPanel Height="50">
-
+                <Menu>
+                    <MenuItem Header="File">
+                        <MenuItem Command="self:CustomCommands.Exit" />
+                    </MenuItem>
+                </Menu>
             </StackPanel>
             
             <Grid x:Name="Grid1" Visibility="Visible">
@@ -23,6 +40,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
+
+               
 
 
                 <StackPanel Orientation="Vertical" MaxWidth="500" HorizontalAlignment="Center" Grid.Column="0" Background="Azure">
@@ -47,7 +66,11 @@
                     <Button x:Name="cmdDodajTowar"  Content="Dodaj Towar"    Margin="0 10 0 0" Click="cmdDodajTowar_Click"/>
                     <Button x:Name="cmdDodajBOM"    Content="Dodaj BOM"      Margin="0 10 0 0" Click="cmdDodajBOM_Click"/>
                     
-                    <Button x:Name="cmdExit" IsCancel="True" Content="_Wstecz" Margin="0 10 0 0" Click="cmdExit_Click"/>
+                    <Button x:Name="cmdExit" IsCancel="True" Content="_Zamknij" Margin="0 10 0 0" Click="cmdExit_Click"/>
+
+                    <Button x:Name="cmdtestNew"    Content="test"  Margin="0 10 0 0" Command="ApplicationCommands.New"/>
+                    <Button Command="self:CustomCommands.Exit">Exit</Button>
+                    
                 </StackPanel>
                 
             </Grid>

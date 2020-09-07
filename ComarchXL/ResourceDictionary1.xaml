@@ -33,6 +33,6 @@
         <!-- zasób jako osobny plik w miejscu pochodzenia, odwołujemy siędo plików niedołączonych do projektu -->
         <!-- katalog Images musi być tam gdzie exe -->
         <!-- czyli w : D:\vs\WPF\ComarchXL\ComarchXL\bin\Debug\Images\tire_red.png'-->
-        <BitmapImage x:Key="Opona2" UriSource="pack://siteOfOrigin:,,,/Images/tire_gray.png"/>
+        <!--<BitmapImage x:Key="Opona2" UriSource="pack://siteOfOrigin:,,,/Images/tire_gray.png"/>-->
 
 </ResourceDictionary>

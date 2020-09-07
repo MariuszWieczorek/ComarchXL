@@ -143,8 +143,35 @@ namespace ComarchXL
             ComarchTools.wyloguj(ref SessionID);
         }
 
- 
+        // commands
+        private void NewCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = (SessionID > 0);
+        }
 
- 
+        private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("The New command was invoked");
+        }
+
+        private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = (SessionID > 0);
+        }
+
+        private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("The Exit command was invoked");
+            Application.Current.Shutdown();
+
+        }
+
+
+
+
+
     }
+
+  
+
 }

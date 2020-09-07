@@ -40,7 +40,7 @@
                             <Image Source="{StaticResource Opona0}" Width="40"/>
                             <Image Source="{StaticResource Opona3}" Width="40"/>
                             <Image Source="{StaticResource Opona1}" Width="40"/>
-                            <Image Source="{StaticResource Opona2}" Width="40"/>
+                 
                             <TextBlock Margin="5,0" VerticalAlignment="Center">Import</TextBlock>
                         </StackPanel>
                     </Button>                

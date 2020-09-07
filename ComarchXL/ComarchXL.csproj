@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomCommands.cs" />
     <Compile Include="Menu\ComarchImport.xaml.cs">
       <DependentUpon>ComarchImport.xaml</DependentUpon>
     </Compile>
