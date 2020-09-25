@@ -13,7 +13,7 @@ using System.Data.SqlClient;
 
 namespace ComarchXL
 {
-    public static class ComarchTools
+    public static partial class ComarchTools
     {
 
         /// <summary>

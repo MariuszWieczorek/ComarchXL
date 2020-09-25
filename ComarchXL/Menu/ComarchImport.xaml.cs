@@ -95,7 +95,7 @@ namespace ComarchXL
 
         private void cmdImportKap_Click(object sender, RoutedEventArgs e)
         {
-            ComarchTools.importujKapy(SessionID);
+            ComarchTools.importujKapy2(SessionID);
         }
 
         private void cmdImportKordyCiete_Click(object sender, RoutedEventArgs e)
