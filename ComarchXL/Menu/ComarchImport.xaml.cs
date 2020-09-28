@@ -80,7 +80,8 @@ namespace ComarchXL
 
         private void cmdImportBieznikow_Click(object sender, RoutedEventArgs e)
         {
-            ComarchTools.importujBiezniki(SessionID);
+            ComarchTools.importujBomy(SessionID, "BIEŻNIK CZOŁO");
+            ComarchTools.importujBomy(SessionID, "BIEŻNIK BOK");
         }
 
         private void ImportTest_Click(object sender, RoutedEventArgs e)
@@ -90,27 +91,27 @@ namespace ComarchXL
 
         private void cmdImportDrutowek_Click(object sender, RoutedEventArgs e)
         {
-            ComarchTools.importujDrutowki(SessionID);
+            ComarchTools.importujBomy(SessionID, "DRUTOWKA");
         }
 
         private void cmdImportKap_Click(object sender, RoutedEventArgs e)
         {
-            ComarchTools.importujKapy2(SessionID);
+            ComarchTools.importujBomy(SessionID,"KAPA OPONY");
         }
 
         private void cmdImportKordyCiete_Click(object sender, RoutedEventArgs e)
         {
-            ComarchTools.importujKordyCiete(SessionID);
+            ComarchTools.importujBomy(SessionID, "KORD GUMOWANY CIĘTY");
         }
 
         private void cmdImportOponySurowe_Click(object sender, RoutedEventArgs e)
         {
-            ComarchTools.importujOponySurowe(SessionID);
+            ComarchTools.importujBomy(SessionID, "OPONA SUROWA");
         }
 
         private void cmdImportOponyWulkanizowane_Click(object sender, RoutedEventArgs e)
         {
-            ComarchTools.importujOponyWulkanizowane(SessionID);
+            ComarchTools.importujBomy(SessionID, "OPONA WULKANIZOWANA");
         }
 
 

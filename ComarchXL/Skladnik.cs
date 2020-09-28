@@ -6,5 +6,6 @@
         public string skladnIndeks { get; set; }
         public string skladnNazwa { get; set; }
         public decimal skladnIlosc { get; set; }
+        public string skladnJm { get; set; }
     }
 }

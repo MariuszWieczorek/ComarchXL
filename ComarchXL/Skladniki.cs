@@ -55,6 +55,8 @@ namespace ComarchXL
                            ,b.skladnIlosc
                            ,b.skladnJm
                            from prdkabat.view_bomy as b
+                           where b.skladn_matid is not null 
+                           and b.skladn_matid != 0
                            order by b.kolejn";
 
 
@@ -78,6 +80,7 @@ namespace ComarchXL
 
                         string skladnIndeks = dataReader.GetString(dataReader.GetOrdinal("skladn_indeks")).Trim();
                         string skladnNazwa = dataReader.GetString(dataReader.GetOrdinal("skladn_nazwa")).Trim();
+                        string skladnJm = dataReader.GetString(dataReader.GetOrdinal("skladnJm")).Trim();
                         var skladnIlosc = dataReader.GetSqlDecimal(dataReader.GetOrdinal("skladnIlosc"));
                         int zestawMatId = (int)dataReader.GetSqlInt32(dataReader.GetOrdinal("zestaw_matid"));
 
@@ -86,7 +89,8 @@ namespace ComarchXL
                             zestawMatId = zestawMatId,
                             skladnIndeks = skladnIndeks,
                             skladnNazwa = skladnNazwa,
-                            skladnIlosc = (decimal)skladnIlosc
+                            skladnIlosc = (decimal)skladnIlosc,
+                            skladnJm = skladnJm
                         });
 
 //                       logText = $" \n -         {skladnIndeks} ; {skladnNazwa} ; {skladnIlosc} \n";

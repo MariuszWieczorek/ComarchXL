@@ -18,7 +18,7 @@ namespace ComarchXL
     {
         public List<Zestaw> ListaZestawow;
 
-        public Zestawy()
+        public Zestawy(string zestaw)
         {
             this.ListaZestawow = new List<Zestaw>();
             SqlConnection dataConnection = new SqlConnection();
@@ -59,7 +59,7 @@ namespace ComarchXL
 
                 // parametry przekazywane do zapytania - ochrona przed sql injection
                 SqlParameter param1 = new SqlParameter("@Grupa", SqlDbType.VarChar, 50);
-                param1.Value = "KAPA OPONY";
+                param1.Value = zestaw.Trim();
                 dataCommand.Parameters.Add(param1);
 
 
@@ -82,6 +82,7 @@ namespace ComarchXL
                     {
 
                         string zestawIndeks = dataReader.GetString(dataReader.GetOrdinal("zestaw_indeks")).Trim();
+                        string zestawJm = dataReader.GetString(dataReader.GetOrdinal("zestawJm")).Trim();
                         string zestawNazwa = dataReader.GetString(dataReader.GetOrdinal("zestaw_nazwa")).Trim();
                         var zestawIlosc = dataReader.GetSqlDecimal(dataReader.GetOrdinal("zestawIlosc"));
                         int zestawMatId = (int)dataReader.GetSqlInt32(dataReader.GetOrdinal("zestaw_matid"));
@@ -90,7 +91,8 @@ namespace ComarchXL
                                                   { zestawMatId = zestawMatId,
                                                     zestawIndeks = zestawIndeks,
                                                     zestawNazwa = zestawNazwa,
-                                                    zestawIlosc = (decimal)zestawIlosc
+                                                    zestawIlosc = (decimal)zestawIlosc,
+                                                    zestawJm    = zestawJm    
                                                    }
                         ) ;
                     }
