@@ -94,6 +94,11 @@ namespace ComarchXL
             ComarchTools.importujBomy(SessionID, "DRUTOWKA");
         }
 
+        private void cmdImportApexow_Click(object sender, RoutedEventArgs e)
+        {
+            ComarchTools.importujBomy(SessionID, "APEX");
+        }
+
         private void cmdImportKap_Click(object sender, RoutedEventArgs e)
         {
             ComarchTools.importujBomy(SessionID,"KAPA OPONY");
@@ -167,10 +172,10 @@ namespace ComarchXL
 
         }
 
-
-
-
-
+        private void cmdImportTkaninaOchronna_Click(object sender, RoutedEventArgs e)
+        {
+            ComarchTools.importujBomy(SessionID, "TKANINA OCHRONNA");
+        }
     }
 
   

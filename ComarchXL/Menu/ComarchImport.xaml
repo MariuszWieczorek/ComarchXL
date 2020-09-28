@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Closed="Window_Closed"
         Loaded="Window_Loaded"
-        Title="ComarchImport" Height="450" Width="800">
+        Title="ComarchImport" Height="550" Width="800">
 
     <Window.CommandBindings>
         <CommandBinding Command    ="ApplicationCommands.New" 
@@ -50,8 +50,10 @@
 
                     <Button x:Name="cmdImportBieznikow"           Content="Importuj Bieżniki"              Margin="0 10 0 0" Click="cmdImportBieznikow_Click"/>
                     <Button x:Name="cmdImportDrutowek"            Content="Importuj Drutówki"              Margin="0 10 0 0" Click="cmdImportDrutowek_Click"/>
+                    <Button x:Name="cmdImportApexow"              Content="Importuj Apexy"                 Margin="0 10 0 0" Click="cmdImportApexow_Click"/>
                     <Button x:Name="cmdImportKap"                 Content="Importuj Kapy"                  Margin="0 10 0 0" Click="cmdImportKap_Click"/>
                     <Button x:Name="cmdImportKordyCiete"          Content="Importuj Kordy Cięte"           Margin="0 10 0 0" Click="cmdImportKordyCiete_Click"/>
+                    <Button x:Name="cmdImportTkaninaOchronna"     Content="Importuj Tkaniny Ochronne"      Margin="0 10 0 0" Click="cmdImportTkaninaOchronna_Click"/>
                     <Button x:Name="cmdImportOponySurowe"         Content="Importuj Opony Surowe"          Margin="0 10 0 0" Click="cmdImportOponySurowe_Click"/>
                     <Button x:Name="cmdImportOponyWulkanizowane"  Content="Importuj Opony Wulkanizowane"   Margin="0 10 0 0" Click="cmdImportOponyWulkanizowane_Click"/>
                 </StackPanel>
