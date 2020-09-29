@@ -78,9 +78,13 @@ namespace ComarchXL
             ComarchTools.zamkniecieReceptury(IDReceptury);
         }
 
-        private void cmdImportBieznikow_Click(object sender, RoutedEventArgs e)
+        private void cmdImportBieznikowC_Click(object sender, RoutedEventArgs e)
         {
             ComarchTools.importujBomy(SessionID, "BIEŻNIK CZOŁO");
+        }
+
+        private void cmdImportBieznikowB_Click(object sender, RoutedEventArgs e)
+        {
             ComarchTools.importujBomy(SessionID, "BIEŻNIK BOK");
         }
 
@@ -175,6 +179,11 @@ namespace ComarchXL
         private void cmdImportTkaninaOchronna_Click(object sender, RoutedEventArgs e)
         {
             ComarchTools.importujBomy(SessionID, "TKANINA OCHRONNA");
+        }
+
+        private void cmdImportApexyDrutowki_Click(object sender, RoutedEventArgs e)
+        {
+            ComarchTools.importujBomy(SessionID, "APEX+DRUT");
         }
     }
 

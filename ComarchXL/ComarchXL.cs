@@ -160,6 +160,9 @@ namespace ComarchXL
                     case 87:
                         trescBledu = "Nie podano symbolu receptury";
                         break;
+                    case 127:
+                        trescBledu = $"Receptura o symbolu: {kodReceptury} już istnieje !";
+                        break;
                     default:
                         trescBledu = "Nieznany błąd";
                         break;

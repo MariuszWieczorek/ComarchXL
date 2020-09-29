@@ -13,8 +13,77 @@ using System.Data.SqlClient;
 
 namespace ComarchXL
 {
+
+
+
     public static partial class ComarchTools
     {
+
+
+        public static int sprawdzCzyIstniejeIndeks(string indeks)
+        {
+
+            int ileRekordow = 0;
+
+            SqlConnection dataConnection = new SqlConnection();
+            // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.DataSource = "kab-svr-sql01";
+            builder.InitialCatalog = "kabat_test";
+            builder.IntegratedSecurity = false;
+            builder.UserID = "rap";
+            builder.Password = "rap";
+
+            // Podstawienie zbudowanego ConnectionString'a do obiektu połączenia z bazą
+            dataConnection.ConnectionString = builder.ConnectionString;
+            dataConnection.Open();
+
+            // utworzenie obiektu zawierającego treść zapytania SQL
+            // polecenie tworzy obiekt SqlCommand
+            SqlCommand dataCommand = new SqlCommand();
+
+            // nadaje właściwości Connection obiektu SQLCommand wartość połączenia z bazą danych 
+            dataCommand.Connection = dataConnection;
+            dataCommand.CommandType = CommandType.Text;
+
+            dataCommand.CommandText =
+            @"SELECT count(*) as ile FROM [KABAT_TEST].[CDN].[TwrKarty] where Twr_Kod = @Indeks;";
+
+
+            // parametry przekazywane do zapytania - ochrona przed sql injection
+            SqlParameter param1 = new SqlParameter("@Indeks", SqlDbType.VarChar, 50);
+            param1.Value = indeks.Trim();
+            dataCommand.Parameters.Add(param1);
+
+            SqlDataReader dataReader = dataCommand.ExecuteReader();
+            // obiekt SqlDataReader zawiera najbardziej aktualny wiersz pozyskiwany z bazy danych
+            // metoda Read() pobiera kolejny wiersz zwraca true jeżeli został on pomyślnie odczytany
+            // za pomocą GetXXX() wyodrębniamy informację z kolumny z pobranego wiersza
+            // zamiast XXX wstawiamy typ danych z C# np. GetInt32(), GetString()
+            // 0 oznacza pierwszą kolumnę
+
+            while (dataReader.Read())
+            {
+                int pozId = dataReader.GetInt32(0);
+                // obsługa wartości null
+                // Metoda sprawdza, czy value parametr jest równy DBNull.Value 
+                if (dataReader.IsDBNull(0))
+                {
+                    MessageBox.Show("null");
+                    ileRekordow = 0;
+                }
+                else
+                {
+                    ileRekordow = (int)dataReader.GetSqlInt32(dataReader.GetOrdinal("ile"));
+                }
+            }
+
+            // musimy zawsze zamknąć obiekt SqlDataReader
+            dataReader.Close();
+            // MessageBox.Show(ileRekordow.ToString());
+            return ileRekordow;
+        }
+
 
         /* import Bom-ów */
         /// <summary>
@@ -39,9 +108,9 @@ namespace ComarchXL
 
 
             Zestawy MojeZestawy = new Zestawy(zestaw);
-            foreach(Zestaw x in MojeZestawy.ListaZestawow)
+            foreach (Zestaw x in MojeZestawy.ListaZestawow)
             {
-                
+
             }
 
             Skladniki MojeSkladniki = new Skladniki();
@@ -59,20 +128,22 @@ namespace ComarchXL
             string kodReceptury = "podstawowa";
             double zestawIlosc;
             double skladnIlosc;
+            string skladnIndeks;
+            string zestawIndeks;
 
+            //.Where(x => x.zestawMatId == 580)
 
-
-
-            foreach (Zestaw x in MojeZestawy.ListaZestawow.Where(a=>a.zestawMatId > 520))
+            foreach (Zestaw x in MojeZestawy.ListaZestawow)
             {
 
                 TowarID = -1;
                 RecepturaID = -1;
                 kodReceptury = "podstawowa";
                 zestawIlosc = (double)x.zestawIlosc;
-                jm = x.zestawJm;    
+                zestawIndeks = x.zestawIndeks;
+                jm = x.zestawJm;
 
-                
+
                 if (x.zestawJm.Trim() == "szt")
                     jm = "szt.";
 
@@ -87,18 +158,27 @@ namespace ComarchXL
                     zestawIlosc = (double)x.zestawIlosc * 0.001;
                 }
 
+                if (zestawIndeks.StartsWith("KO"))
+                {
+                    zestawIndeks = zestawIndeks.Replace("-", string.Empty);
+                }
 
-                logText = $" \nzestaw:         {x.zestawIndeks} ; {x.zestawNazwa} ; {zestawIlosc} ; {jm} \n";
+
+                logText = $" \nzestaw:         {zestawIndeks} ; {x.zestawNazwa} ; {zestawIlosc} ; {jm} \n";
                 System.IO.File.AppendAllText(logFileName, logText);
 
 
                 if (doXL)
                 {
-                    int a1 = ComarchTools.nowyProduct(SessionID, ref TowarID, x.zestawIndeks, x.zestawNazwa, jm);
+                    int sprInd = sprawdzCzyIstniejeIndeks(zestawIndeks);
+                    if (sprInd == 0)
+                    {
+                        int a1 = ComarchTools.nowyProduct(SessionID, ref TowarID, zestawIndeks, x.zestawNazwa, jm);
+                    }
                     // MessageBox.Show($"nowyProdukt = {a1}");
 
-                    int a2 = ComarchTools.nowaReceptura(SessionID, ref RecepturaID, kodReceptury, x.zestawIndeks, zestawIlosc.ToString());
-                    // MessageBox.Show($"nowaReceptura = {a2} \n receptura {RecepturaID} ");
+                    int a2 = ComarchTools.nowaReceptura(SessionID, ref RecepturaID, kodReceptury, zestawIndeks, zestawIlosc.ToString());
+                    //MessageBox.Show($"nowaReceptura = {a2} \n receptura {RecepturaID} ");
                 }
 
                 IEnumerable<Skladnik> Skladniki = MojeSkladniki.ListaSkladnikow.Where(p => p.zestawMatId == x.zestawMatId);
@@ -107,8 +187,9 @@ namespace ComarchXL
 
                     skladnIlosc = (double)s.skladnIlosc;
                     jm = s.skladnJm;
+                    skladnIndeks = s.skladnIndeks;
 
-                   
+
                     if (s.skladnJm == "szt")
                         jm = "szt.";
 
@@ -123,13 +204,37 @@ namespace ComarchXL
                         jm = "kg";
                     }
 
+
+                    if (string.Equals(s.skladnIndeks.Trim(), "MIE.OST_2"))
+                    {
+                        skladnIndeks = "MXX.OST_2";
+                    }
+
+                    if (string.Equals(s.skladnIndeks.Trim(), "OTT004P"))
+                    {
+                        skladnIndeks = "MXX.OTT004P";
+                        MessageBox.Show(skladnIndeks);
+                    }
+
+                    if (string.Equals(s.skladnIndeks.Trim(), "MIE.BKR65_2"))
+                    {
+                        skladnIndeks = "MXX.BKR65_2";
+                    }
+
+                    if (string.Equals(s.skladnIndeks.Trim(), "MIE.BMO65_2"))
+                    {
+                        skladnIndeks = "MXX.BMO65_2";
+                    }
+
+
+
                     if (doXL)
                     {
-                        int a3 = ComarchTools.nowySkladnik(ref RecepturaID, s.skladnIndeks, skladnIlosc.ToString());
+                        int a3 = ComarchTools.nowySkladnik(ref RecepturaID, skladnIndeks, skladnIlosc.ToString());
                         //MessageBox.Show($"nowySkladnik = {a3} , skladnik = {skladIndeks} \n receptura {RecepturaID}");
                     }
 
-                    logText = $" \nskladnik:        {s.skladnIndeks} ; {s.skladnNazwa} ; {skladnIlosc} ; {jm} \n";
+                    logText = $" \nskladnik:        {skladnIndeks} ; {s.skladnNazwa} ; {skladnIlosc} ; {jm} \n";
                     System.IO.File.AppendAllText(logFileName, logText);
                 }
 
@@ -142,7 +247,7 @@ namespace ComarchXL
 
             }
 
-            
+
 
 
 
@@ -167,11 +272,12 @@ namespace ComarchXL
             */
 
             MessageBox.Show("OK");
-            
+
             return 0;
-            
+
 
         }
 
-    }
+
+    }   
 }
