@@ -102,6 +102,8 @@ namespace ComarchXL
 
             }
 
+    
+
             string logFileName = $@"C:\archprg\gm\log.txt";
             string logText = "";
             System.IO.File.WriteAllText(logFileName, DateTime.Now.ToString() + "\n");
@@ -161,6 +163,7 @@ namespace ComarchXL
                 if (zestawIndeks.StartsWith("KO"))
                 {
                     zestawIndeks = zestawIndeks.Replace("-", string.Empty);
+                    zestawIndeks = zestawIndeks.Trim() + "G2";
                 }
 
 

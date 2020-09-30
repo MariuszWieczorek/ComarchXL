@@ -136,6 +136,9 @@ namespace ComarchXL
 
             // Asynchronous
             //synthesizer.SpeakAsync("zaloguj się najpierw");
+
+            decimal liczba = 2.2222222222222222222222222222222222222222222222222222M;
+            MessageBox.Show(liczba.ToString());
         }
 
         private void Window_Unloaded(object sender, RoutedEventArgs e)
