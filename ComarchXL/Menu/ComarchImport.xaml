@@ -69,6 +69,8 @@
                     <Button x:Name="ImportTest"     Content="Import Test"    Margin="0 10 0 0" Click="ImportTest_Click" />
                     <Button x:Name="cmdDodajTowar"  Content="Dodaj Towar"    Margin="0 10 0 0" Click="cmdDodajTowar_Click"/>
                     <Button x:Name="cmdDodajBOM"    Content="Dodaj BOM"      Margin="0 10 0 0" Click="cmdDodajBOM_Click"/>
+                    <Button x:Name="cmdKillProc"    Content="Kill Calc"      Margin="0 10 0 0" Click="cmdKillProc_Click"/>
+                    <Button x:Name="cmdCalcc"       Content="Calc"           Margin="0 10 0 0" Click="cmdCalcc_Click"/>
                     
                     <Button x:Name="cmdExit" IsCancel="True" Content="_Zamknij" Margin="0 10 0 0" Click="cmdExit_Click"/>
 

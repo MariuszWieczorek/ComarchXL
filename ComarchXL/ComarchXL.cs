@@ -24,9 +24,9 @@ namespace ComarchXL
         /// <returns></returns>
         public static int  zaloguj(ref int SessionId)
         {
-            var Login = new XLLoginInfo_20201
+            var Login = new XLLoginInfo_20202
             {
-                Wersja = 20201,
+                Wersja = 20202,
                 ProgramID = "test",
                 OpeIdent = "admin",
                 OpeHaslo = "1111",
@@ -82,9 +82,9 @@ namespace ComarchXL
                 return -1;
             }
 
-            var Towar = new XLTowarInfo_20201
+            var Towar = new XLTowarInfo_20202
             {
-                Wersja = 20201,
+                Wersja = 20202,
                 Typ = 2,
                 Kod = kod,
                 Nazwa = nazwa,
@@ -128,9 +128,9 @@ namespace ComarchXL
         /// <returns></returns>
         public static int nowaReceptura(int SessionId, ref int RecepturaId, string kodReceptury, string towar, string ilosc)
         {
-            var RecepturaInfo = new XLRecepturaInfo_20201
+            var RecepturaInfo = new XLRecepturaInfo_20202
             {
-                Wersja = 20201,
+                Wersja = 20202,
                 TypReceptury = 1,
                 Symbol = kodReceptury,
                 Towar = towar,
@@ -152,7 +152,7 @@ namespace ComarchXL
                         trescBledu = "Błąd logoutu";
                         break;
                     case 11:
-                        trescBledu = "Nie znaleziono towaru";
+                        trescBledu = $"Nie znaleziono towaru \n towar: {towar} \n{ilosc} ";
                         break;
                     case 13:
                         trescBledu = "Nie podano ilości";
@@ -184,9 +184,9 @@ namespace ComarchXL
         public static int nowySkladnik(ref int RecepturaId, string towar, string ilosc)
         {
 
-            var SkladnikRecepturyInfo = new XLSkladnikRecepturyInfo_20201
+            var SkladnikRecepturyInfo = new XLSkladnikRecepturyInfo_20202
             {
-                Wersja = 20201,
+                Wersja = 20202,
                 Towar = towar,
                 Ilosc = ilosc,
                 TypPozycji = 2
@@ -207,9 +207,9 @@ namespace ComarchXL
         /// <returns></returns>
         public static int zamkniecieReceptury(int RecepturaId)
         {
-            var ZamkniecieRecepturyInfo = new XLZamkniecieRecepturyInfo_20201
+            var ZamkniecieRecepturyInfo = new XLZamkniecieRecepturyInfo_20202
             {
-                Wersja = 20201,
+                Wersja = 20202,
             };
 
             var retValue = cdn_api.cdn_api.XLZamknijRecepture(RecepturaId, ZamkniecieRecepturyInfo);
@@ -236,7 +236,7 @@ namespace ComarchXL
             {
                 // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "127.0.0.1";
+                builder.DataSource = "192.168.1.186";
                 builder.InitialCatalog = "mwbase";
                 builder.IntegratedSecurity = false;
                 builder.UserID = "sa";
@@ -400,7 +400,7 @@ namespace ComarchXL
             {
                 // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "127.0.0.1";
+                builder.DataSource = "192.168.1.186";
                 builder.InitialCatalog = "mwbase";
                 builder.IntegratedSecurity = false;
                 builder.UserID = "sa";
@@ -557,7 +557,7 @@ namespace ComarchXL
             {
                 // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "127.0.0.1";
+                builder.DataSource = "192.168.1.186";
                 builder.InitialCatalog = "mwbase";
                 builder.IntegratedSecurity = false;
                 builder.UserID = "sa";
@@ -704,7 +704,7 @@ namespace ComarchXL
             {
                 // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "127.0.0.1";
+                builder.DataSource = "192.168.1.186";
                 builder.InitialCatalog = "mwbase";
                 builder.IntegratedSecurity = false;
                 builder.UserID = "sa";
@@ -857,7 +857,7 @@ namespace ComarchXL
             {
                 // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "127.0.0.1";
+                builder.DataSource = "192.168.1.186";
                 builder.InitialCatalog = "mwbase";
                 builder.IntegratedSecurity = false;
                 builder.UserID = "sa";
@@ -1169,7 +1169,7 @@ namespace ComarchXL
             {
                 // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "127.0.0.1";
+                builder.DataSource = "192.168.1.186";
                 builder.InitialCatalog = "mwbase";
                 builder.IntegratedSecurity = false;
                 builder.UserID = "sa";

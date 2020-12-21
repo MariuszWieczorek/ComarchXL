@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace ComarchXL
 {
@@ -136,9 +137,6 @@ namespace ComarchXL
 
             // Asynchronous
             //synthesizer.SpeakAsync("zaloguj się najpierw");
-
-            decimal liczba = 2.2222222222222222222222222222222222222222222222222222M;
-            MessageBox.Show(liczba.ToString());
         }
 
         private void Window_Unloaded(object sender, RoutedEventArgs e)
@@ -187,6 +185,23 @@ namespace ComarchXL
         private void cmdImportApexyDrutowki_Click(object sender, RoutedEventArgs e)
         {
             ComarchTools.importujBomy(SessionID, "APEX+DRUT");
+        }
+
+        private void cmdKillProc_Click(object sender, RoutedEventArgs e)
+        {
+           
+
+            Process[] _proceses = null;
+            _proceses = Process.GetProcessesByName("calc");
+            foreach (Process proces in _proceses)
+            {
+                proces.Kill();
+            }
+        }
+
+        private void cmdCalcc_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("calc");
         }
     }
 

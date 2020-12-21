@@ -29,7 +29,7 @@ namespace ComarchXL
             // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.DataSource = "kab-svr-sql01";
-            builder.InitialCatalog = "kabat_test";
+            builder.InitialCatalog = "kabat";
             builder.IntegratedSecurity = false;
             builder.UserID = "rap";
             builder.Password = "rap";
@@ -47,7 +47,7 @@ namespace ComarchXL
             dataCommand.CommandType = CommandType.Text;
 
             dataCommand.CommandText =
-            @"SELECT count(*) as ile FROM [KABAT_TEST].[CDN].[TwrKarty] where Twr_Kod = @Indeks;";
+            @"SELECT count(*) as ile FROM [KABAT].[CDN].[TwrKarty] where Twr_Kod = @Indeks;";
 
 
             // parametry przekazywane do zapytania - ochrona przed sql injection
@@ -174,6 +174,7 @@ namespace ComarchXL
                 if (doXL)
                 {
                     int sprInd = sprawdzCzyIstniejeIndeks(zestawIndeks);
+                    //MessageBox.Show($"{zestawIndeks} {sprInd}");
                     if (sprInd == 0)
                     {
                         int a1 = ComarchTools.nowyProduct(SessionID, ref TowarID, zestawIndeks, x.zestawNazwa, jm);
@@ -216,7 +217,6 @@ namespace ComarchXL
                     if (string.Equals(s.skladnIndeks.Trim(), "OTT004P"))
                     {
                         skladnIndeks = "MXX.OTT004P";
-                        MessageBox.Show(skladnIndeks);
                     }
 
                     if (string.Equals(s.skladnIndeks.Trim(), "MIE.BKR65_2"))

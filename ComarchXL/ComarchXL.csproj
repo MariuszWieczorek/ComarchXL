@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="cdn_api20201.net">
-      <HintPath>C:\Program Files (x86)\Comarch ERP XL 2020.1\cdn_api20201.net.dll</HintPath>
+    <Reference Include="cdn_api20202.net">
+      <HintPath>..\..\..\..\Program Files (x86)\Comarch ERP XL 2020.2\cdn_api20202.net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

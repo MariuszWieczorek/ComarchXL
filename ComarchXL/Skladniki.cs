@@ -29,7 +29,7 @@ namespace ComarchXL
             {
                 // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "127.0.0.1";
+                builder.DataSource = "192.168.1.186";
                 builder.InitialCatalog = "mwbase";
                 builder.IntegratedSecurity = false;
                 builder.UserID = "sa";
