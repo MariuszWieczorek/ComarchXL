@@ -29,8 +29,8 @@ namespace ComarchXL
                 Wersja = 20202,
                 ProgramID = "test",
                 OpeIdent = "admin",
-                OpeHaslo = "1111",
-                Baza = "KABAT_TEST"
+                OpeHaslo = "18Mx594",
+                Baza = "KABAT"
                 //Baza = "import"
 
 

@@ -163,7 +163,8 @@ namespace ComarchXL
                 if (zestawIndeks.StartsWith("KO"))
                 {
                     zestawIndeks = zestawIndeks.Replace("-", string.Empty);
-                    zestawIndeks = zestawIndeks.Trim() + "G2";
+                    //zestawIndeks = zestawIndeks.Trim() + "G2";
+                    zestawIndeks = zestawIndeks.Trim();
                 }
 
 
