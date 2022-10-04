@@ -10,6 +10,7 @@ using System.Windows;
 using System.Data;
 // zawiera klasy dostawców danych
 using System.Data.SqlClient;
+using System.Data.OracleClient; 
 
 namespace ComarchXL
 {
@@ -30,7 +31,7 @@ namespace ComarchXL
                 ProgramID = "test",
                 OpeIdent = "admin",
                 OpeHaslo = "18Mx594",
-                Baza = "KABAT"
+                Baza = "KABAT_TEST"
                 //Baza = "import"
 
 
@@ -74,7 +75,7 @@ namespace ComarchXL
         /// <param name="nazwa"></param>
         /// <param name="jm"></param>
         /// <returns></returns>
-        public static int nowyProduct(int SessionId, ref int TowarID , string kod, string nazwa, string jm)
+        public static int nowyProduct(int SessionId, ref int TowarID , string kod, string nazwa, string jm, int typ, string grupa)
         {
             if (SessionId < 1)
             {
@@ -85,9 +86,10 @@ namespace ComarchXL
             var Towar = new XLTowarInfo_20202
             {
                 Wersja = 20202,
-                Typ = 2,
+                Typ = typ,
                 Kod = kod,
                 Nazwa = nazwa,
+                TwrGrupa = grupa,
                 Jm = jm
             };
 
@@ -104,7 +106,7 @@ namespace ComarchXL
                         MessageBox.Show($"kod błędu {retValue.ToString()} - nie podano nazwy");
                         break;
                     case 83:
-                        MessageBox.Show($"kod błędu {retValue.ToString()} - Jest już towar o takim kodzie");
+                     //   MessageBox.Show($"kod błędu {retValue.ToString()} - Jest już towar o takim kodzie");
                         break;
                     default:
                         MessageBox.Show($"kod błędu {retValue.ToString()} ");
@@ -216,10 +218,268 @@ namespace ComarchXL
             return retValue;
         }
 
-        /// <summary>
-        /// Metoda Importująca bieżniki
-        /// </summary>
-        /// <returns></returns>
+
+        
+        public static int importujPozycjeGlowne(int sessionId)
+        {
+            
+            if (sessionId <= 0)
+            {
+                MessageBox.Show("Brak połączenia z ComarchXL");
+                return -1;
+
+            }
+            // SqlConnection jest podklasą klasy ADO.NET o nazwie Connection
+            // jest przeznaczona do obsługi połączeń z bazami danych SQL Server
+            SqlConnection dataConnection = new SqlConnection();
+            try
+            {
+                // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = "192.168.1.186";
+                builder.InitialCatalog = "mwbase";
+                builder.IntegratedSecurity = false;
+                builder.UserID = "sa";
+                builder.Password = "#slican27$x";
+
+                
+                builder.DataSource = @"192.168.0.148\dev";
+                builder.InitialCatalog = "test";
+                builder.IntegratedSecurity = false;
+                builder.UserID = "sa";
+                builder.Password = "ZAQ!2wsx";
+                
+
+                // Podstawienie zbudowanego ConnectionString'a do obiektu połączenia z bazą
+                dataConnection.ConnectionString = builder.ConnectionString;
+                dataConnection.Open();
+
+                // utworzenie obiektu zawierającego treść zapytania SQL
+                // polecenie tworzy obiekt SqlCommand
+                SqlCommand dataCommand = new SqlCommand();
+
+                // nadaje właściwości Connection obiektu SQLCommand wartość połączenia z bazą danych 
+                dataCommand.Connection = dataConnection;
+                dataCommand.CommandType = CommandType.Text;
+
+                
+                string query1 = "SELECT b.id, b.indeks, b.nazwa, b.jm, b.typ, b.twgtyp as grupa " +
+                    "FROM indeksy_do_ifs as b " +
+                    "WHERE b.id <= @MaxPozId " +
+                    "AND b.id >= @MinPozId " +
+                    "ORDER BY b.id";
+
+                string tgwtype = "IFS";
+
+                string query2 = $@"SELECT b.rowid, b.part_no as indeks, b.description as nazwa, b.unit_code jm, 1 as typ, ""IFS"" as grupa " +
+                "FROM dbo.test as b " +
+                "ORDER BY b.part_no";
+
+
+                dataCommand.CommandText = query2;
+
+                // parametry przekazywane do zapytania - ochrona przed sql injection
+                SqlParameter param1 = new SqlParameter("@MinPozId", SqlDbType.Int, 50);
+                param1.Value = 1;
+                dataCommand.Parameters.Add(param1);
+
+                SqlParameter param2 = new SqlParameter("@MaxPozId", SqlDbType.Int, 50);
+                param2.Value = 160;
+                dataCommand.Parameters.Add(param2);
+
+
+                SqlDataReader dataReader = dataCommand.ExecuteReader();
+                // obiekt SqlDataReader zawiera najbardziej aktualny wiersz pozyskiwany z bazy danych
+                // metoda Read() pobiera kolejny wiersz zwraca true jeżeli został on pomyślnie odczytany
+                // za pomocą GetXXX() wyodrębniamy informację z kolumny z pobranego wiersza
+                // zamiast XXX wstawiamy typ danych z C# np. GetInt32(), GetString()
+                // 0 oznacza pierwszą kolumnę
+
+                string fileNameA = $@"C:\archprg\import_pozycje_glowne_z_ifs.txt";
+                System.IO.File.WriteAllText(fileNameA, DateTime.Now.ToString() + "\n");
+
+                int counter = 1;
+
+                while (dataReader.Read())
+                {
+                    int pozId = dataReader.GetInt32(0);
+                    counter++;
+
+                    // obsługa wartości null
+                    if (dataReader.IsDBNull(2))
+                    {
+                        MessageBox.Show("null");
+                    }
+                    else
+                    {
+                                            
+                        string indeks = dataReader.GetString(1).Trim();
+                        string nazwa = dataReader.GetString(2).Trim();
+                        string jm = dataReader.GetString(3).Trim();
+                        int typ = dataReader.GetInt32(4);
+                        string grupa = dataReader.GetString(5).Trim();
+
+
+
+
+                        string tekst = $"\n sesja {sessionId} indeks: {indeks.Trim()}";
+                        
+
+                        int SessionID = sessionId;
+                        int TowarID = -1;
+                        
+                        int a1 = ComarchTools.nowyProduct(SessionID, ref TowarID, indeks, nazwa, jm, typ, grupa);
+ 
+                       
+                        string fileNameW = $@"C:\archprg\{indeks}.txt";
+                        string info = $"{tekst} {a1};\n";
+
+                        System.IO.File.WriteAllText(fileNameW,info );
+                        System.IO.File.AppendAllText(fileNameA, info);
+                    }
+                }
+                // musimy zawsze zamknąć obiekt SqlDataReader
+                dataReader.Close();
+
+
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show($"Błąd dostepu do bazy danych: {e.Message} \n" );
+            }
+            finally
+            {
+                // zamyka połączenie z bazą danych    
+                dataConnection.Close();
+            }
+
+            return 0;
+        }
+
+
+        public static int importujPozycjeGlowne2(int sessionId)
+        {
+            
+            if (sessionId <= 0)
+            {
+                MessageBox.Show("Brak połączenia z ComarchXL");
+                return -1;
+
+            }
+            // SqlConnection jest podklasą klasy ADO.NET o nazwie Connection
+            // jest przeznaczona do obsługi połączeń z bazami danych SQL Server
+            OracleConnection dataConnection = new OracleConnection();
+            try
+            {
+                // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
+                //  "User Id=scada;Password=scada;Data Source=192.168.1.195/TEST10;",
+                OracleConnectionStringBuilder builder = new OracleConnectionStringBuilder();
+                  builder.DataSource = "192.168.1.195/TEST10";
+                  builder.IntegratedSecurity = false;
+                  builder.UserID = "scada";
+                  builder.Password = "scada";
+                  builder.Pooling = true;
+              
+
+                // Podstawienie zbudowanego ConnectionString'a do obiektu połączenia z bazą
+                dataConnection.ConnectionString = builder.ConnectionString;
+                dataConnection.Open();
+
+                // utworzenie obiektu zawierającego treść zapytania SQL
+                // polecenie tworzy obiekt SqlCommand
+                OracleCommand dataCommand = new OracleCommand();
+
+                // nadaje właściwości Connection obiektu SQLCommand wartość połączenia z bazą danych 
+                dataCommand.Connection = dataConnection;
+                dataCommand.CommandType = CommandType.Text;
+
+                dataCommand.CommandText =
+                    $@"SELECT *
+                    FROM IFSINFO.SCADA_OPERATIONS";
+
+
+                // parametry przekazywane do zapytania - ochrona przed sql injection
+                SqlParameter param1 = new SqlParameter("@MinPozId", SqlDbType.Int, 50);
+                param1.Value = 1;
+                dataCommand.Parameters.Add(param1);
+
+                SqlParameter param2 = new SqlParameter("@MaxPozId", SqlDbType.Int, 50);
+                param2.Value = 160;
+                dataCommand.Parameters.Add(param2);
+
+
+                OracleDataReader dataReader = dataCommand.ExecuteReader();
+                // obiekt SqlDataReader zawiera najbardziej aktualny wiersz pozyskiwany z bazy danych
+                // metoda Read() pobiera kolejny wiersz zwraca true jeżeli został on pomyślnie odczytany
+                // za pomocą GetXXX() wyodrębniamy informację z kolumny z pobranego wiersza
+                // zamiast XXX wstawiamy typ danych z C# np. GetInt32(), GetString()
+                // 0 oznacza pierwszą kolumnę
+
+                string fileNameA = $@"C:\archprg\import_pozycje_glowne_z_ifs.txt";
+                System.IO.File.WriteAllText(fileNameA, DateTime.Now.ToString() + "\n");
+
+                while (dataReader.Read())
+                {
+                    int pozId = dataReader.GetInt32(0);
+                    // obsługa wartości null
+                    if (dataReader.IsDBNull(2))
+                    {
+                        MessageBox.Show("null");
+                    }
+                    else
+                    {
+                                            
+                        string indeks = dataReader.GetString(1).Trim();
+                        string nazwa = dataReader.GetString(2).Trim();
+                        string jm = dataReader.GetString(3).Trim();
+                        int typ = dataReader.GetInt32(4);
+                        string grupa = dataReader.GetString(5).Trim();
+
+
+
+
+                        string tekst = $"\nsesja {sessionId} \n zestaw: {indeks.Trim()} \n ";
+                        
+
+                        int SessionID = sessionId;
+                        int TowarID = -1;
+                        
+                       int a1 = ComarchTools.nowyProduct(SessionID, ref TowarID, indeks, nazwa, jm, typ, grupa);
+                       //MessageBox.Show($"nowyProdukt = {a1}");
+                       
+                       
+                        string fileNameW = $@"C:\archprg\{indeks}.txt";
+                        string info = $"{tekst} ;\n" +
+                            $"nowy produkt         {a1} ;\n";
+
+
+                        System.IO.File.WriteAllText(fileNameW,info );
+                                              
+                        System.IO.File.AppendAllText(fileNameA, info);
+
+
+
+                    }
+                }
+                // musimy zawsze zamknąć obiekt SqlDataReader
+                dataReader.Close();
+
+
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show($"Błąd dostepu do bazy danych: {e.Message} \n" );
+            }
+            finally
+            {
+                // zamyka połączenie z bazą danych    
+                dataConnection.Close();
+            }
+
+            return 0;
+        }
+
+        /*
         public static int importujBiezniki(int sessionId)
         {
             
@@ -378,12 +638,6 @@ namespace ComarchXL
             return 0;
         }
 
-        /* import drutowek */
-
-        /// <summary>
-        /// Metoda Importująca drutówki
-        /// </summary>
-        /// <returns></returns>
         public static int importujDrutowki(int sessionId)
         {
 
@@ -536,11 +790,6 @@ namespace ComarchXL
             return 0;
         }
 
-        /* import Kap */
-        /// <summary>
-        /// Metoda Importująca kapy
-        /// </summary>
-        /// <returns></returns>
         public static int importujKapy(int sessionId)
         {
 
@@ -682,12 +931,6 @@ namespace ComarchXL
             return 0;
         }
 
-        /* importuj kordy cięte */
-
-        /// <summary>
-        /// Metoda Importująca kordy cięte
-        /// </summary>
-        /// <returns></returns>
         public static int importujKordyCiete (int sessionId)
         {
 
@@ -835,12 +1078,6 @@ namespace ComarchXL
             return 0;
         }
 
-        /* importuj opony surowe */
-
-        /// <summary>
-        /// Metoda Importująca kordy cięte
-        /// </summary>
-        /// <returns></returns>
         public static int importujOponySurowe(int sessionId)
         {
 
@@ -1147,12 +1384,6 @@ namespace ComarchXL
             return 0;
         }
 
-        /* Importuj Opony Wulkanizowane */
-
-        /// <summary>
-        /// Metoda Importująca bieżniki
-        /// </summary>
-        /// <returns></returns>
         public static int importujOponyWulkanizowane(int sessionId)
         {
 
@@ -1290,7 +1521,8 @@ namespace ComarchXL
             return 0;
         }
 
-        /* test działania API */
+
+        */
 
         public static int importTest(int sessionId)
         {
@@ -1313,7 +1545,7 @@ namespace ComarchXL
             string skladIndeks = "T002";
             int skladIlosc = 2;
 
-            var a1 = ComarchTools.nowyProduct(sessionId, ref TowarID, indeks, nazwa, jm);
+            var a1 = ComarchTools.nowyProduct(sessionId, ref TowarID, indeks, nazwa, jm, 1, "IFS");
             MessageBox.Show($"nowyProdukt = {a1}");
 
             var a2 = ComarchTools.nowaReceptura(sessionId, ref RecepturaID, kodReceptury, indeks, "1");
@@ -1327,6 +1559,6 @@ namespace ComarchXL
 
             return 1;
         }
-
+       
     }
 }

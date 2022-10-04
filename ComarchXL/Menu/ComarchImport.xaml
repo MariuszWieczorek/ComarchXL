@@ -48,8 +48,8 @@
                     <Button x:Name="cmdLogin"                     Content="Login"                          Margin="0 10 0 0" Click="cmdLogin_Click" Style="{StaticResource MyButton}"/>
                     <Button x:Name="cmdLogout"                    Content="Logout"                         Margin="0 10 0 0" Click="cmdLogout_Click"/>
 
-                    <Button x:Name="cmdImportBieznikowC"           Content="Importuj Bieżniki - Czoło"    Margin="0 10 0 0" Click="cmdImportBieznikowC_Click"/>
-                    <Button x:Name="cmdImportBieznikowB"           Content="Importuj Bieżniki - Bok"       Margin="0 10 0 0" Click="cmdImportBieznikowB_Click"/>
+                    <Button x:Name="cmdImportPozycjeGlowne"       Content="Importuj Pozycje Główne do XL" Margin="0 10 0 0" Click="cmdImportPozycjeGlowne_Click"/>
+                    <Button x:Name="cmdImportBieznikowB"          Content="Importuj Bieżniki - Bok"       Margin="0 10 0 0" Click="cmdImportBieznikowB_Click"/>
                     <Button x:Name="cmdImportDrutowek"            Content="Importuj Drutówki"              Margin="0 10 0 0" Click="cmdImportDrutowek_Click"/>
                     <Button x:Name="cmdImportApexow"              Content="Importuj Apexy"                 Margin="0 10 0 0" Click="cmdImportApexow_Click"/>
                     <Button x:Name="cmdImportApexyDrutowki"       Content="Importuj Apexy - Drutówki"      Margin="0 10 0 0" Click="cmdImportApexyDrutowki_Click"/>

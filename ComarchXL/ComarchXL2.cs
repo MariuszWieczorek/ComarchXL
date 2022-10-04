@@ -93,6 +93,9 @@ namespace ComarchXL
         public static int importujBomy(int sessionId, string zestaw)
         {
 
+            return 0;
+
+            /*
             bool doXL = true;
 
             if (sessionId <= 0)
@@ -267,18 +270,13 @@ namespace ComarchXL
 
             IEnumerable<int> numQuery2 = numbers.Where(num => num % 2 == 0).OrderBy(n => n);
 
-            /*
-            IEnumerable<Skladnik> skladnikX =
-            from x in MojeSkladniki
-            where x.zestawMatid > 100000
-            select x.skladnIndeks, x.skladnNazwa, x.skladnIlosc;
-                     
-            */
+            
 
             MessageBox.Show("OK");
 
             return 0;
-
+            
+            */
 
         }
 

@@ -56,7 +56,7 @@ namespace ComarchXL
             string jm = "szt";
             int TowarID = -1;
 
-            ComarchTools.nowyProduct(SessionID, ref TowarID, kod, nazwa, jm);
+            ComarchTools.nowyProduct(SessionID, ref TowarID, kod, nazwa, jm, 1, "IFS");
         }
 
         private void cmdDodajBOM_Click(object sender, RoutedEventArgs e)
@@ -79,9 +79,9 @@ namespace ComarchXL
             ComarchTools.zamkniecieReceptury(IDReceptury);
         }
 
-        private void cmdImportBieznikowC_Click(object sender, RoutedEventArgs e)
+        private void cmdImportPozycjeGlowne_Click(object sender, RoutedEventArgs e)
         {
-            ComarchTools.importujBomy(SessionID, "BIEŻNIK CZOŁO");
+            ComarchTools.importujPozycjeGlowne(SessionID);
         }
 
         private void cmdImportBieznikowB_Click(object sender, RoutedEventArgs e)
@@ -92,7 +92,7 @@ namespace ComarchXL
         private void ImportTest_Click(object sender, RoutedEventArgs e)
         {
             ComarchTools.importTest(SessionID);
-        }
+        } 
 
         private void cmdImportDrutowek_Click(object sender, RoutedEventArgs e)
         {
@@ -203,6 +203,7 @@ namespace ComarchXL
         {
             System.Diagnostics.Process.Start("calc");
         }
+
     }
 
   
