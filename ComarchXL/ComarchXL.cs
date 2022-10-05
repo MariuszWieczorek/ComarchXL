@@ -10,7 +10,8 @@ using System.Windows;
 using System.Data;
 // zawiera klasy dostawców danych
 using System.Data.SqlClient;
-using System.Data.OracleClient; 
+using System.Data.OracleClient;
+using System.Diagnostics;
 
 namespace ComarchXL
 {
@@ -23,7 +24,7 @@ namespace ComarchXL
         /// </summary>
         /// <param name="SessionId"></param>
         /// <returns></returns>
-        public static int  zaloguj(ref int SessionId)
+        public static int zaloguj(ref int SessionId)
         {
             var Login = new XLLoginInfo_20202
             {
@@ -36,10 +37,10 @@ namespace ComarchXL
 
 
             };
-            
+
             cdn_api.cdn_api.XLLogin(Login, ref SessionId);
-            
-          
+
+
             return SessionId;
         }
 
@@ -75,7 +76,7 @@ namespace ComarchXL
         /// <param name="nazwa"></param>
         /// <param name="jm"></param>
         /// <returns></returns>
-        public static int nowyProduct(int SessionId, ref int TowarID , string kod, string nazwa, string jm, int typ, string grupa)
+        public static int nowyProduct(int SessionId, ref int TowarID, string kod, string nazwa, string jm, int typ, string grupa)
         {
             if (SessionId < 1)
             {
@@ -100,20 +101,20 @@ namespace ComarchXL
                 switch (retValue)
                 {
                     case 292:
-                     MessageBox.Show($"kod błędu {retValue.ToString()} - brak jednostki miary" );
+                        MessageBox.Show($"kod błędu {retValue.ToString()} - brak jednostki miary");
                         break;
                     case 82:
                         MessageBox.Show($"kod błędu {retValue.ToString()} - nie podano nazwy");
                         break;
                     case 83:
-                     //   MessageBox.Show($"kod błędu {retValue.ToString()} - Jest już towar o takim kodzie");
+                        //   MessageBox.Show($"kod błędu {retValue.ToString()} - Jest już towar o takim kodzie");
                         break;
                     default:
                         MessageBox.Show($"kod błędu {retValue.ToString()} ");
                         break;
 
                 }
- 
+
             }
             return retValue;
         }
@@ -171,7 +172,7 @@ namespace ComarchXL
 
                 }
                 MessageBox.Show($"kod błędu: {retValue.ToString()} treść błędu:  {trescBledu}");
-            }    
+            }
 
             return retValue;
         }
@@ -194,7 +195,7 @@ namespace ComarchXL
                 TypPozycji = 2
             };
 
-           // MessageBox.Show($"recepturaId {RecepturaId} towar: {towar} ilosc {ilosc} ");
+            // MessageBox.Show($"recepturaId {RecepturaId} towar: {towar} ilosc {ilosc} ");
             var retValue = cdn_api.cdn_api.XLDodajSkladnikReceptury(ref RecepturaId, SkladnikRecepturyInfo);
             return retValue;
         }
@@ -219,147 +220,62 @@ namespace ComarchXL
         }
 
 
-        
+
         public static int importujPozycjeGlowne(int sessionId)
         {
             
+            var produktyXl = new ProduktyXl().ListaProduktow;
+
+            var produktyIfs = new ProduktyIfs().ListaProduktow;
+            
+            var produktyDoImportu = produktyIfs.Except(produktyXl,new ProductComparer()).ToList();
+
+
+            /*
+
+            var indeksyXl = produktyXl.Select(x=>x.Code).ToList();
+            var indeksyIfs = produktyIfs.Select(x=>x.Code).ToList();
+            var indeksyDoImportu = indeksyIfs.Except(indeksyXl).ToList();
+
+            */
+            
+                                    
+      
             if (sessionId <= 0)
             {
                 MessageBox.Show("Brak połączenia z ComarchXL");
                 return -1;
 
             }
-            // SqlConnection jest podklasą klasy ADO.NET o nazwie Connection
-            // jest przeznaczona do obsługi połączeń z bazami danych SQL Server
-            SqlConnection dataConnection = new SqlConnection();
-            try
+
+
+            string fileNameA = $@"C:\archprg\import_pozycje_glowne_z_ifs.txt";
+            System.IO.File.WriteAllText(fileNameA, DateTime.Now.ToString() + "\n");
+
+            int counter = 0;
+            
+            foreach (var item in produktyDoImportu)
             {
-                // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = "192.168.1.186";
-                builder.InitialCatalog = "mwbase";
-                builder.IntegratedSecurity = false;
-                builder.UserID = "sa";
-                builder.Password = "#slican27$x";
 
-                
-                builder.DataSource = @"192.168.0.148\dev";
-                builder.InitialCatalog = "test";
-                builder.IntegratedSecurity = false;
-                builder.UserID = "sa";
-                builder.Password = "ZAQ!2wsx";
-                
+                counter++;
 
-                // Podstawienie zbudowanego ConnectionString'a do obiektu połączenia z bazą
-                dataConnection.ConnectionString = builder.ConnectionString;
-                dataConnection.Open();
-
-                // utworzenie obiektu zawierającego treść zapytania SQL
-                // polecenie tworzy obiekt SqlCommand
-                SqlCommand dataCommand = new SqlCommand();
-
-                // nadaje właściwości Connection obiektu SQLCommand wartość połączenia z bazą danych 
-                dataCommand.Connection = dataConnection;
-                dataCommand.CommandType = CommandType.Text;
-
-                
-                string query1 = "SELECT b.id, b.indeks, b.nazwa, b.jm, b.typ, b.twgtyp as grupa " +
-                    "FROM indeksy_do_ifs as b " +
-                    "WHERE b.id <= @MaxPozId " +
-                    "AND b.id >= @MinPozId " +
-                    "ORDER BY b.id";
-
-                string tgwtype = "IFS";
-
-                string query2 = $@"SELECT b.rowid, b.part_no as indeks, b.description as nazwa, b.unit_code jm, 1 as typ, ""IFS"" as grupa " +
-                "FROM dbo.test as b " +
-                "ORDER BY b.part_no";
-
-
-                dataCommand.CommandText = query2;
-
-                // parametry przekazywane do zapytania - ochrona przed sql injection
-                SqlParameter param1 = new SqlParameter("@MinPozId", SqlDbType.Int, 50);
-                param1.Value = 1;
-                dataCommand.Parameters.Add(param1);
-
-                SqlParameter param2 = new SqlParameter("@MaxPozId", SqlDbType.Int, 50);
-                param2.Value = 160;
-                dataCommand.Parameters.Add(param2);
-
-
-                SqlDataReader dataReader = dataCommand.ExecuteReader();
-                // obiekt SqlDataReader zawiera najbardziej aktualny wiersz pozyskiwany z bazy danych
-                // metoda Read() pobiera kolejny wiersz zwraca true jeżeli został on pomyślnie odczytany
-                // za pomocą GetXXX() wyodrębniamy informację z kolumny z pobranego wiersza
-                // zamiast XXX wstawiamy typ danych z C# np. GetInt32(), GetString()
-                // 0 oznacza pierwszą kolumnę
-
-                string fileNameA = $@"C:\archprg\import_pozycje_glowne_z_ifs.txt";
-                System.IO.File.WriteAllText(fileNameA, DateTime.Now.ToString() + "\n");
-
-                int counter = 1;
-
-                while (dataReader.Read())
+                if (counter % 1000 == 0)
                 {
-                    int pozId = dataReader.GetInt32(0);
-                    counter++;
-
-                    // obsługa wartości null
-                    if (dataReader.IsDBNull(2))
-                    {
-                        MessageBox.Show("null");
-                    }
-                    else
-                    {
-                                            
-                        string indeks = dataReader.GetString(1).Trim();
-                        string nazwa = dataReader.GetString(2).Trim();
-                        string jm = dataReader.GetString(3).Trim();
-                        int typ = dataReader.GetInt32(4);
-                        string grupa = dataReader.GetString(5).Trim();
-
-
-
-
-                        string tekst = $"\n sesja {sessionId} indeks: {indeks.Trim()}";
-                        
-
-                        int SessionID = sessionId;
-                        int TowarID = -1;
-                        
-                        int a1 = ComarchTools.nowyProduct(SessionID, ref TowarID, indeks, nazwa, jm, typ, grupa);
- 
-                       
-                        string fileNameW = $@"C:\archprg\{indeks}.txt";
-                        string info = $"{tekst} {a1};\n";
-
-                        System.IO.File.WriteAllText(fileNameW,info );
-                        System.IO.File.AppendAllText(fileNameA, info);
-                    }
+                    int a = counter;
                 }
-                // musimy zawsze zamknąć obiekt SqlDataReader
-                dataReader.Close();
 
-
+                int TowarID = -1;
+                int a1 = ComarchTools.nowyProduct(sessionId, ref TowarID, item.Code, item.Name, item.jm.Trim(), item.typ, item.grupa);
+                string tekst = $"\n sesja {sessionId} indeks: {item.Code.Trim()} result {a1} ";
+                System.IO.File.AppendAllText(fileNameA, tekst);
             }
-            catch (SqlException e)
-            {
-                MessageBox.Show($"Błąd dostepu do bazy danych: {e.Message} \n" );
-            }
-            finally
-            {
-                // zamyka połączenie z bazą danych    
-                dataConnection.Close();
-            }
-
             return 0;
         }
 
 
         public static int importujPozycjeGlowne2(int sessionId)
         {
-            
+
             if (sessionId <= 0)
             {
                 MessageBox.Show("Brak połączenia z ComarchXL");
@@ -374,12 +290,12 @@ namespace ComarchXL
                 // Zbudowanie ConnectionString'a za pomocą obiektu SqlConnectionStringBuilder
                 //  "User Id=scada;Password=scada;Data Source=192.168.1.195/TEST10;",
                 OracleConnectionStringBuilder builder = new OracleConnectionStringBuilder();
-                  builder.DataSource = "192.168.1.195/TEST10";
-                  builder.IntegratedSecurity = false;
-                  builder.UserID = "scada";
-                  builder.Password = "scada";
-                  builder.Pooling = true;
-              
+                builder.DataSource = "192.168.1.195/TEST10";
+                builder.IntegratedSecurity = false;
+                builder.UserID = "scada";
+                builder.Password = "scada";
+                builder.Pooling = true;
+
 
                 // Podstawienie zbudowanego ConnectionString'a do obiektu połączenia z bazą
                 dataConnection.ConnectionString = builder.ConnectionString;
@@ -428,7 +344,7 @@ namespace ComarchXL
                     }
                     else
                     {
-                                            
+
                         string indeks = dataReader.GetString(1).Trim();
                         string nazwa = dataReader.GetString(2).Trim();
                         string jm = dataReader.GetString(3).Trim();
@@ -439,22 +355,22 @@ namespace ComarchXL
 
 
                         string tekst = $"\nsesja {sessionId} \n zestaw: {indeks.Trim()} \n ";
-                        
+
 
                         int SessionID = sessionId;
                         int TowarID = -1;
-                        
-                       int a1 = ComarchTools.nowyProduct(SessionID, ref TowarID, indeks, nazwa, jm, typ, grupa);
-                       //MessageBox.Show($"nowyProdukt = {a1}");
-                       
-                       
+
+                        int a1 = ComarchTools.nowyProduct(SessionID, ref TowarID, indeks, nazwa, jm, typ, grupa);
+                        //MessageBox.Show($"nowyProdukt = {a1}");
+
+
                         string fileNameW = $@"C:\archprg\{indeks}.txt";
                         string info = $"{tekst} ;\n" +
                             $"nowy produkt         {a1} ;\n";
 
 
-                        System.IO.File.WriteAllText(fileNameW,info );
-                                              
+                        System.IO.File.WriteAllText(fileNameW, info);
+
                         System.IO.File.AppendAllText(fileNameA, info);
 
 
@@ -468,7 +384,7 @@ namespace ComarchXL
             }
             catch (SqlException e)
             {
-                MessageBox.Show($"Błąd dostepu do bazy danych: {e.Message} \n" );
+                MessageBox.Show($"Błąd dostepu do bazy danych: {e.Message} \n");
             }
             finally
             {
@@ -1541,7 +1457,7 @@ namespace ComarchXL
             string jm = "szt.";
             string kodReceptury = "podstawowa";
             string indeks = "T004";
-            string nazwa  = "T004 - nazwa";
+            string nazwa = "T004 - nazwa";
             string skladIndeks = "T002";
             int skladIlosc = 2;
 
@@ -1559,6 +1475,6 @@ namespace ComarchXL
 
             return 1;
         }
-       
+
     }
 }

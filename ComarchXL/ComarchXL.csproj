@@ -70,9 +70,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Product.cs" />
+    <Compile Include="ProduktyXl.cs" />
     <Compile Include="Skladnik.cs" />
     <Compile Include="Skladniki.cs" />
     <Compile Include="Zestaw.cs" />
+    <Compile Include="ProduktyIfs.cs" />
     <Compile Include="Zestawy.cs" />
     <Compile Include="ComarchXL2.cs" />
     <Compile Include="CustomCommands.cs" />
